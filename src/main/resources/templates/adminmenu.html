@@ -30,12 +30,11 @@
 		</script>
 	</head>
 	<body>
-		< ul >
+		<ul>
 			<li th:each="menu:${menuList}">
 				<a href="javascript:void(0)" th:text="${menu.name}" th:attr="attribute='/adminview/'+${menu.url}"></a>
 			</li>
 		</ul>
-		<ul id="tree" class="ztree"></ul>
 		<div id="content" th:attr="attribute=${firstMenu.url}">
 		</div>
 	</body>
