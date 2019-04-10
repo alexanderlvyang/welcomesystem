@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>统一身份认证</title>
+		<link rel="stylesheet" href="/css/bootstrap.min.css">
+		<script src="/js/jquery-3.3.1.min.js"></script>
+		<script>
+			$(function () {
+				$("#loginbutton").bind("click",function () {
+					$.ajax({
+						type:'post',
+						url:'/'
+					})
+				});
+			})
+		</script>
+		<style type="text/css">
+			*{
+				margin:0px;
+				padding:0px;
+			}	
+			body{
+				background:url(/img/login-bg-autumn.jpg) no-repeat;
+				background-size:100% 100%;
+				background-attachment: fixed;
+			}
+			.container{
+				width: 100%;
+			}
+			.login{
+				height: 300px;
+				background: rgba(255,255,255,0.3);
+				border: 1px solid #000000;
+			}
+			.title{
+				display: block;
+				font-size: 35px;
+				height: 40px;
+				color: white;
+				margin-top: 10px;
+			}
+			.entrance{
+				background: white;
+				height: 230px;
+				margin-top:40px;
+			}
+			.body{
+				margin-top: 150px;
+			}
+			#user{
+				margin-top: 80px;
+				margin-left: 70px;
+			}
+			#pswd{
+				margin-top: 40px;
+				margin-left: 70px;
+			}
+			#username{
+				width: 250px;
+				height: 30px;
+				border: none;
+				background: rgba(255,255,255,0.5);
+			}
+			#password{
+				width: 250px;
+				height: 30px;
+				border: none;
+				background: rgba(255,255,255,0.5);
+			}
+			#loginbutton{
+				width:150px;
+				height: 25px;
+				margin-left: 150px;
+				margin-top: 20px;
+				background: #1ab394;
+				color:white;
+				border:none;
+			}
+			#forgetpswd{
+				float: right;
+				margin-top: 10px;
+				color: #AC2925;
+				text-decoration: none;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="container">
+			<div class="row">
+				<div class="col-md-3">
+					<img src="/img/logo.png" alt="" class="logo">
+				</div>
+				<div class="col-md-4 col-md-offset-2">
+					<p class="title">统一身份认证</p>
+				</div>
+			</div>
+		</div>
+		<div class="container">
+			<div class="row body">
+				<div class="col-md-4 col-md-offset-1 entrance">
+					<p>
+						2016级新生初始密码为身份证后6位，或在迎新系统修改的密码，你可以2个密码都尝试，密码不能尝试过多，以免被锁。如果还是无法登录，请到各校区一卡通服务网点（思明校区嘉庚主楼一楼学生事务大厅>、总馆二楼服务总台；海韵宿舍区信息工程分馆；翔安校区图书馆二楼总台；漳州校区一卡通中心）进行修改。
+					</p>
+					<p>
+						目前统一身份认证系统正在升级，如果你在本页面可以登录而其他的无法登录，可重新修改密码即可(修改密码请登录 i.xmu.edu.cn ，右上角“控制面板”的“个人设置”内)。同时绑定自己的安全邮箱使得密码忘记后可通过邮箱取回(绑定邮箱也在“个人设置”内)。安全邮箱应当为不常用的邮箱。
+					</p>
+				</div>
+				<div class="col-md-4 col-md-offset-2 login">
+					<div id="user">
+						<label><img src="/img/用户%20(1).png" alt="" width="30" height="30"></label>
+						<input type="text" id="username" placeholder="用户名" />
+					</div>
+					<div id="pswd">
+						<label><img src="/img/锁%201.png" alt="" width="30" height="30"></label>
+						<input type="password" id="password" placeholder="密码"/>
+					</div>
+					<button type="button" id="loginbutton">登录</button>
+					<br>
+					<a href="" id="forgetpswd">忘记密码？</a>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.yang.main.mapper.MenuMapper">
+    <select id="selectMenuByAdmin" parameterType="org.yang.main.pojo.Admin" resultType="org.yang.main.pojo.Menu">
+        select * from menu where id in(select menuid from role_menu where roleid in (select roleid from admin where id=#{id}))
+    </select>
+    <select id="selectAllMenu" resultType="org.yang.main.pojo.Menu">
+        select * from menu
+    </select>
+
+</mapper>

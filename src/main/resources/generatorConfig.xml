@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+    <!--    <properties resource="jdbc.properties" />-->
+    <context id="sqlserverTables" defaultModelType="hierarchical" targetRuntime="MyBatis3">
+        <!-- 自动识别数据库关键字，默认false，如果设置为true，根据SqlReservedWords中定义的关键字列表； 一般保留默认值，遇到数据库关键字（Java关键字），使用columnOverride覆盖 -->
+        <property name="autoDelimitKeywords" value="false" />
+        <!-- 生成的Java文件的编码 -->
+        <property name="javaFileEncoding" value="UTF-8" />
+        <!-- beginningDelimiter和endingDelimiter：指明数据库的用于标记数据库对象名的符号，比如ORACLE就是双引号，MYSQL默认是`反引号； -->
+        <property name="beginningDelimiter" value="`" />
+        <property name="endingDelimiter" value="`" />
+        <!-- 生成的pojo，将implements Serializable-->
+        <!-- <plugin type="org.mybatis.generator.plugins.SerializablePlugin"></plugin>-->
+        <commentGenerator>
+            <property name="suppressDate" value="true"/>
+            <!-- 是否去除自动生成的注释 true：是 ： false:否 -->
+            <property name="suppressAllComments" value="true" />
+        </commentGenerator>
+
+        <!-- 数据库链接URL、用户名、密码 -->
+        <jdbcConnection driverClass="com.mysql.cj.jdbc.Driver"
+                        connectionURL="jdbc:mysql://localhost/welcomesystem"
+                        userId="root"
+                        password="toor">
+        </jdbcConnection>
+
+        <!--
+        默认false，把JDBC DECIMAL 和 NUMERIC 类型解析为 Integer
+            true，把JDBC DECIMAL 和 NUMERIC 类型解析为java.math.BigDecimal
+          是否使用bigDecimal， false可自动转化以下类型（Long, Integer, Short, etc.）
+        -->
+        <javaTypeResolver>
+            <property name="forceBigDecimals" value="false" />
+        </javaTypeResolver>
+
+        <!--
+        生成model模型，对应的包路径，以及文件存放路径(targetProject)，targetProject可以指定具体的路径,如./src/main/java，
+        也可以使用“MAVEN”来自动生成，这样生成的代码会在target/generatord-source目录下
+        -->
+        <!--<javaModelGenerator targetPackage="com.joey.mybaties.test.pojo" targetProject="MAVEN">-->
+        <javaModelGenerator targetPackage="org.yang.main.pojo" targetProject="./src/main/java">
+            <!-- 从数据库返回的值被清理前后的空格  -->
+            <property name="trimStrings" value="true" />
+           <!-- <property name="enableSubPackages" value="true" />-->
+        </javaModelGenerator>
+
+        <!--对应的mapper.xml文件  -->
+        <sqlMapGenerator targetPackage="/.mapper" targetProject="./src/main/resources">
+            <property name="enableSubPackages" value="true"/>
+        </sqlMapGenerator>
+
+        <!-- 对应的Mapper接口类文件 -->
+        <javaClientGenerator type="XMLMAPPER" targetPackage="org.yang.main.mapper" targetProject="./src/main/java">
+            <property name="enableSubPackages" value="true"/>
+        </javaClientGenerator>
+
+
+        <!-- 列出要生成代码的所有表，这里配置的是生成Example文件 -->
+        <table catalog="welcomesystem" tableName="%" modelType="flat"
+               enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false"
+               enableSelectByExample="false" selectByExampleQueryId="false" >
+            <property name="useActualColumnNames" value="true"/>
+            <property name="ignoreQualifiersAtRuntime" value="true"/>
+        </table>
+    </context>
+</generatorConfiguration>
