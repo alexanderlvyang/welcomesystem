@@ -40,4 +40,14 @@ public class Admin {
     public void setRoleid(Integer roleid) {
         this.roleid = roleid;
     }
+
+    @Override
+    public String toString() {
+        return "Admin{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", password='" + password + '\'' +
+                ", roleid=" + roleid +
+                '}';
+    }
 }
