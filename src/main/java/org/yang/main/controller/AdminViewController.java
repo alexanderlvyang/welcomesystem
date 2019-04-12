@@ -16,9 +16,7 @@ public class AdminViewController {
     @RequestMapping("adminmenu")
     public String adminmenu(Model model, HttpServletRequest request){
         model.addAttribute("menuList",homeServiceImpl.getMenuByAdmin(request));
-        model.addAttribute("firstMenu",homeServiceImpl.getMenuByAdmin(request).get(0));
         model.addAttribute("allMenuList",homeServiceImpl.getAllMenu());
-        System.out.println(homeServiceImpl.getMenuByAdmin(request));
         return "adminmenu";
     }
     @RequestMapping("privilegemanagement")

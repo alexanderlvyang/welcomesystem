@@ -10,15 +10,16 @@
 			*{margin: 0;padding: 0}
 			html, body{height: 100%}
             /*a{text-decoration: none}*/
-			.menu_list{float: left;width:15%;height:100%;background-color: #313432
+			.menu_list{float: left;width:15%;height:100%;background-color: #f1fff5
 			}
 			#content{float: right;width:85%;height:100%;background-color:#668FAF
 			}
             /*.menu_list{width:268px;margin:0 auto;}*/
-            .menu_head{height:47px;line-height:47px;padding-left:38px;font-size:14px;color:#525252;cursor:pointer;border:1px solid #e1e1e1;position:relative;margin:0px;font-weight:bold;background:#f1f1f1 url(images/pro_left.png) center right no-repeat;}
-            .menu_list .current{background:#f1f1f1 url(/img/pro_down.png) center right no-repeat;}
+            .menu_head{height:47px;line-height:47px;padding-left:38px;font-size:14px;color: #000000;cursor:pointer;border:1px solid #e1e1e1;position:relative;margin:0px;font-weight:bold;background: #ffffff url(images/pro_left.png) center right no-repeat;}
+            .menu_list {background: #ffffff center right no-repeat;}
+            .current{background: #7671f1 url(/img/pro_down.png) center right no-repeat;}
             .menu_body{line-height:38px;border-left:1px solid #e1e1e1;backguound:#fff;border-right:1px solid #e1e1e1;}
-            .menu_body a{display:block;height:38px;line-height:38px;padding-left:38px;color:#777777;background:#fff;text-decoration:none;border-bottom:1px solid #e1e1e1;}
+            .menu_body a{display:block;height:38px;line-height:38px;padding-left:38px;color: #6a6a6a;background:#fff;text-decoration:none;border-bottom:1px solid #e1e1e1;}
             .menu_body a:hover{text-decoration:none;}
 		</style>
 
@@ -28,102 +29,41 @@
 				// $('#content').load('./a.html');
 				var firstMenu=$("#content").attr("attribute");
 				$('#content').load("/adminview"+firstMenu);
-				alert(firstMenu);
 				$("a").bind("click",function () {
 					$("#content").load($(this).attr("attribute"));
 				})
 			});
             $(document).ready(function(){
-                $("#firstpane .menu_body:eq(0)").show();
+                $(".menu_body").hide();
                 $("#firstpane h3.menu_head").click(function(){
                     $(this).addClass("current").next("div.menu_body").slideToggle(300).siblings("div.menu_body").slideUp("slow");
                     $(this).siblings().removeClass("current");
                 });
 
-                $("#secondpane .menu_body:eq(0)").show();
-                $("#secondpane h3.menu_head").mouseover(function(){
-                    $(this).addClass("current").next("div.menu_body").slideDown(500).siblings("div.menu_body").slideUp("slow");
-                    $(this).siblings().removeClass("current");
-                });
-
+                // $("#secondpane .menu_body:eq(0)").show();
+                // $("#secondpane h3.menu_head").mouseover(function(){
+                //     $(this).addClass("current").next("div.menu_body").slideDown(500).siblings("div.menu_body").slideUp("slow");
+                //     $(this).siblings().removeClass("current");
+                // });
+                // $(".menu_head").css("background","rgba(255,255,255,0)");
+                // $(".menu_body").css("background","rgba(255,255,255,0)");
+                // $(".menu_list").css("color","white");
             });
 		</script>
 	</head>
 	<body>
     <div id="firstpane" class="menu_list">
         <th:block th:each="menu:${menuList}">
-            <h3 class="menu_head current" th:if="${menu.level} eq 0" th:text="${menu.name}"></h3>
+            <h3 class="menu_head" th:if="${menu.level} eq 0" th:text="${menu.name}"></h3>
             <div style="display:block" class="menu_body">
                 <th:block  th:each="childmenu:${menuList}">
                     <a href="#" th:if="${childmenu.pid} eq ${menu.id}" th:text="${childmenu.name}"></a>
                 </th:block>
-
-<!--                <a href="#">宗教学</a>-->
-<!--                <a href="#">美学</a>-->
-<!--                <a href="#">伦理学</a>-->
-<!--                <a href="#">逻辑学</a>-->
-<!--                <a href="#">外国哲学</a>-->
-<!--                <a href="#">中国哲学</a>-->
-<!--                <a href="#">马克思主义哲学</a>-->
             </div>
         </th:block>
-<!--        <h3 class="menu_head">经济学</h3>-->
-<!--        <div style="display:none" class="menu_body">-->
-<!--            <a href="#">应用经济学</a>-->
-<!--            <a href="#">理论经济学</a>-->
-<!--            <a href="#">国民经济学</a>-->
-<!--            <a href="#">区域经济学</a>-->
-<!--            <a href="#">产业经济学</a>-->
-<!--            <a href="#">国际贸易学</a>-->
-<!--            <a href="#">劳动经济学</a>-->
-<!--            <a href="#">政治经济学</a>-->
-<!--        </div>-->
-
-<!--        <h3 class="menu_head">法学</h3>-->
-<!--        <div style="display:none" class="menu_body">-->
-<!--            <a href="#">马克思主义基本原理</a>-->
-<!--            <a href="#">马克思主义发展史</a>-->
-<!--            <a href="#">马克思主义中国化研究</a>-->
-<!--            <a href="#">国外马克思主义研究</a>-->
-<!--            <a href="#">思想政治教育</a>-->
-<!--        </div>-->
-
-<!--        <h3 class="menu_head">教育学</h3>-->
-<!--        <div style="display:none" class="menu_body">-->
-<!--            <a href="#">体育人文社会学</a>-->
-<!--            <a href="#">体育教育训练学</a>-->
-<!--            <a href="#">民族传统体育学</a>-->
-<!--            <a href="#">发展与教育心理学</a>-->
-<!--            <a href="#">应用心理学</a>-->
-<!--            <a href="#">教育学原理</a>-->
-<!--            <a href="#">课程与教学论</a>-->
-<!--            <a href="#">比较教育学</a>-->
-<!--            <a href="#">学前教育学</a>-->
-<!--            <a href="#">高等教育学</a>-->
-<!--            <a href="#">成人教育学</a>-->
-<!--            <a href="#">职业技术教育学</a>-->
-<!--            <a href="#">特殊教育学</a>-->
-<!--            <a href="#">教育技术学</a>-->
-<!--        </div>-->
-
-<!--        <h3 class="menu_head">工学</h3>-->
-<!--        <div style="display:none" class="menu_body">-->
-<!--            <a href="#">一般力学与力学基础</a>-->
-<!--            <a href="#">固体力学</a>-->
-<!--            <a href="#">流体力学</a>-->
-<!--            <a href="#">工程力学</a>-->
-<!--            <a href="#">机械制造及其自动化</a>-->
-<!--            <a href="#">机械电子工程</a>-->
-<!--            <a href="#">机械设计及理论</a>-->
-<!--            <a href="#">仪器科学与技术</a>-->
-<!--            <a href="#">精密仪器及机械</a>-->
-<!--            <a href="#">测试计量技术及仪器</a>-->
-<!--            <a href="#">材料物理与化学</a>-->
-<!--        </div>-->
-
     </div>
 
-    <div id="content" th:attr="attribute=${firstMenu.url}">
+    <div id="content">
 		</div>
 	</body>
 </html>

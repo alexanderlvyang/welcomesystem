@@ -22,7 +22,6 @@ public class HomeServiceImpl implements HomeService {
     @Override
     public List<Menu> getMenuByAdmin(HttpServletRequest request) {
         Admin loginAdmin = (Admin)request.getSession().getAttribute("admin");
-        System.out.println(menuMapper.selectMenuByAdmin(loginAdmin));
         return menuMapper.selectMenuByAdmin(loginAdmin);
     }
 
