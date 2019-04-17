@@ -1,8 +1,9 @@
 package org.yang.main.mapper;
 
+import org.apache.ibatis.annotations.Mapper;
 import org.yang.main.pojo.RoleMenu;
-
-public interface RoleMenuMapper {
+@Mapper
+public interface RoleMenuMapper extends BaseRoleMenuMapper{
     int deleteByPrimaryKey(Integer id);
 
     int insert(RoleMenu record);

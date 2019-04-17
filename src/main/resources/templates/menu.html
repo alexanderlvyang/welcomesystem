@@ -1,14 +1,51 @@
 <!DOCTYPE html>
-<html>
-	<head>
-		<meta charset="utf-8">
-		<title>主页</title>
-	</head>
-	<frameset rows="10%,*" rameborder="no" border="0" framespacing="0">
-		<frame src="top.html">
-		<frameset cols="20%,*">
-			<frame src="left.html">
-			<frame src="right.html" >
-		</frameset>
-	</frameset>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        *{margin: 0px;padding: 0px}
+        html, body{height: 100%}
+        .menu_list{width:100%;height:100%;}
+        .menu_head{height:47px;line-height:47px;padding-left:38px;font-size:14px;color: #000000;cursor:pointer;border:1px solid #e1e1e1;position:relative;margin:0px;font-weight:bold;background: #ffffff url(images/pro_left.png) center right no-repeat;}
+        .menu_list {background: #ffffff center right no-repeat;}
+        .current{background: #6A75A2 url(/img/pro_down.png) center right no-repeat;}
+        .menu_body{line-height:38px;border-left:1px solid #e1e1e1;backguound:#fff;border-right:1px solid #e1e1e1;}
+        .menu_body a{display:block;height:38px;line-height:38px;padding-left:38px;color: #6a6a6a;background:#fff;text-decoration:none;border-bottom:1px solid #e1e1e1;}
+        .menu_body a:hover{text-decoration:none;}
+    </style>
+    <script src="/js/jquery-3.3.1.min.js"></script>
+    <script>
+        $(document).ready(function(){
+
+            $("a").bind("click",function () {
+                $("#content").load("/adminview"+$(this).attr("attribute"));
+            })
+        });
+        $(document).ready(function(){
+            $(".menu_body").hide();
+            $("#firstpane h3.menu_head").click(function(){
+                $(this).addClass("current").next("div.menu_body").slideToggle(300).siblings("div.menu_body").slideUp("slow");
+                $(this).siblings().removeClass("current");
+            });
+            $(".menu_body a").bind("click",function () {
+                $(this).css("background","#6A75A2");
+                $(this).siblings().css("background","#fff");
+            })
+        });
+    </script>
+</head>
+<body>
+<div id="firstpane" class="menu_list">
+    <th:block th:each="menu:${menuList}">
+        <h3 class="menu_head" th:if="${menu.pid} eq 0" th:text="${menu.name}"></h3>
+        <div style="display:block" class="menu_body">
+            <th:block  th:each="childmenu:${menuList}">
+                <a href="javascript:void(0)" th:if="${childmenu.pid} eq ${menu.id}" th:text="${childmenu.name}"  th:attr="attribute=${childmenu.url}"></a>
+            </th:block>
+        </div>
+    </th:block>
+</div>
+</body>
 </html>

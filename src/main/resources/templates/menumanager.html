@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        *{
+            margin:0px;
+            padding:0px;
+        }
+        .table{
+            width:100%;
+            margin-top: 100px;
+        }
+        #addBtn{
+            width: 150px;
+            height: 25px;
+            background: #e22;
+            color: #ffffff;
+            position: absolute;
+            top: 5%;
+            left: 17%;
+            border: none;
+        }
+        .addBox{
+            position: absolute;
+            top: 20%;
+            left:40%;
+            width: 500px;
+            height: 250px;
+            background:white;
+            display: none;
+        }
+        .addTab{
+            width:350px;
+            margin-top: 50px;
+            margin-left: 85px;
+        }
+        #category{
+            width: 204px;
+            height: 26px;
+        }
+        #dadMenu{
+            width: 204px;
+            height: 26px;
+        }
+        .tabBox{
+            background: rgba(255,255,255,0.4);
+        }
+        #submitBtn{
+            width: 100px;
+            height: 20px;
+            background: #05b808;
+            border: none;
+            margin-top: 40px;
+            margin-right: 50px;
+        }
+        #cancelBtn{
+            width: 100px;
+            height: 20px;
+            background: #b80300;
+            border: none;
+            margin-top: 40px;
+            margin-left: 50px;
+        }
+        input{
+            width: 200px;
+            height: 20px;
+        }
+        .table button{
+            width: 50px;
+            height: 20px;
+            background: #28a4c9;
+            border: none;
+        }
+        button:hover{
+            cursor: pointer;
+        }
+        .delBox{
+            width: 400px;
+            height: 150px;
+            position: absolute;
+            top: 20%;
+            left:40%;
+            background:white;
+            display: none;
+        }
+        #dadWaring{
+            float: left;
+            font-size: 20px;
+            color: #ff4b55;
+            margin-top: 20px;
+        }
+        #childWaring{
+            font-size: 20px;
+            color: #ff4b55;
+            margin-top: 20px;
+        }
+        #confirmDel{
+            width: 100px;
+            height: 20px;
+            background: #b80300;
+            border: none;
+            margin-top: 25px;
+            margin-right: 60px;
+        }
+        #cancelDel{
+            width: 100px;
+            height: 20px;
+            background: #05b808;
+            border: none;
+            margin-top: 25px;
+            margin-right: 10px;
+        }
+        .editBox{
+            position: absolute;
+            top: 20%;
+            left:40%;
+            width: 500px;
+            height: 250px;
+            background:white;
+            display: none;
+        }
+        .editTab{
+            width:350px;
+            margin-top: 60px;
+            margin-left: 85px;
+        }
+        #menuSel{
+            width: 204px;
+            height: 26px;
+        }
+        #confirmUpt{
+            width: 100px;
+            height: 20px;
+            background: #05b808;
+            border: none;
+            margin-top: 30px;
+            margin-right: 50px;
+        }
+        #cancelUpt{
+            width: 100px;
+            height: 20px;
+            background: #b80300;
+            border: none;
+            margin-top: 30px;
+            margin-left: 50px;
+        }
+    </style>
+    <script src="/js/jquery-3.3.1.min.js"></script>
+    <script>
+        $(function () {
+           $("#addBtn").bind("click",function () {
+               $(".addBox").show();
+           });
+           $("#category").bind("change",function () {
+               var category=$(this).val();
+               if(category=="子级"){
+                   $("#dadName").show();
+                   $("#urlAddress").show();
+               }else{
+                   $("#dadName").hide();
+                   $("#urlAddress").hide();
+               }
+           });
+           $("#submitBtn").bind("click",function () {
+              var name= $("#name").val();
+              var category=$("#category").val();
+              var url=$("#url").val();
+              var pid="";
+              if(category=="父级"){
+                  if(name==""||name.length==0){
+                      alert("不能有空");
+                  }else{
+                      pid=0;
+                      $.ajax({
+                          type:"post",
+                          url:"/menumanager/addMenu",
+                          data:{
+                              "name":name,
+                              "pid":pid,
+                              "url":url
+                          },
+                          async:false,
+                          success:function (message) {
+                              alert(message);
+                              window.parent.reloadcontent("menumanager");
+                          }
+                      });
+                  }
+              }else{
+                  var pname=$("#dadMenu").val();
+                  if(name==""||name.length==0||url==""||url.length==0){
+                      alert("不能有空");
+                  }else{
+                      $.ajax({
+                          type:"post",
+                          url:"/menumanager/getIdByName",
+                          data:{
+                              "name":pname
+                          },
+                          async:false,
+                          success:function (message) {
+                              pid=message
+                              $.ajax({
+                                  type:"post",
+                                  url:"/menumanager/addMenu",
+                                  data:{
+                                      "name":name,
+                                      "pid":pid,
+                                      "url":url
+                                  },
+                                  async:false,
+                                  success:function (message) {
+                                      alert(message);
+                                      window.parent.reloadcontent("menumanager");
+                                  }
+                              });
+                          }
+                      });
+                  }
+              }
+
+           });
+           $("#cancelBtn").bind("click",function () {
+               $(".addBox").hide();
+           });
+           $(".editBtn").bind("click",function () {
+               var id=$(this).parent().parent().children("td:first-child").text();
+               $.ajax({
+                   type:"post",
+                   url:"/menumanager/selectMenuById",
+                   data:{
+                       "id":id
+                   },
+                   success:function (data) {
+                       $("#editName").val(data.name);
+                       $("#urlAddr").val(data.url);
+                       if(data.pid==0){
+                           $("#editDad").hide();
+                           $("#editUrl").hide();
+                       }else{
+                           $("#editDad").show();
+                           $("#editUrl").show();
+                       }
+                   }
+               });
+              $(".editBox").show();
+              $("#editName").attr("uptId",id);
+
+           });
+           $(".delBtn").bind("click",function () {
+               var id=$(this).parent().parent().children("td:first-child").text();
+               var dadMenu=$(this).parent().prev().prev().html()
+               var pid=$(this).attr("attribute");
+               if(dadMenu=="无"){
+                    $("#dadWaring").show();
+                    $("#childWaring").hide();
+                   $(".delBox").show();
+                    $("#confirmDel").attr("delId",id);
+               }else{
+                   $("#dadWaring").hide();
+                   $("#childWaring").show();
+                   $(".delBox").show();
+                   $("#confirmDel").attr("delId",id);
+                   $("#confirmDel").attr("pid",pid);
+               }
+           });
+           $("#cancelDel").bind("click",function () {
+              $(".delBox").hide();
+           });
+           $("#confirmDel").bind("click",function () {
+              var id=$(this).attr("delId");
+              var pid=$(this).attr("pid");
+              $.ajax({
+                  type:"post",
+                  url:"/menumanager/delMenuById",
+                  data:{
+                      "id":id,
+                      "pid":pid
+                  },
+                  success:function (message) {
+                      alert(message);
+                      window.parent.reloadcontent("menumanager");
+                  }
+              })
+           });
+           $("#cancelUpt").bind("click",function () {
+              $(".editBox").hide();
+           });
+           $("#confirmUpt").bind("click",function () {
+              var id=$("#editName").attr("uptId");
+              var name=$("#editName").val();
+              var pname=$("#menuSel").val();
+              var url=$("#urlAddr").val();
+              var pid;
+              if(name==""||name.length==0||url==""||url.length==0){
+                  alert("不能有空");
+              }else{
+                  $.ajax({
+                      type:"post",
+                      url:"/menumanager/getIdByName",
+                      data:{
+                          "name":pname
+                      } ,
+                      success:function (message) {
+                          pid=message;
+                          $.ajax({
+                              type:"post",
+                              url:"/menumanager/updateMenuById",
+                              data:{
+                                  "id":id,
+                                  "name":name,
+                                  "pid":pid,
+                                  "url":url
+                              },success:function (message) {
+                                  alert(message);
+                                  window.parent.reloadcontent("/menumanager");
+                              }
+                          })
+                      }
+                  });
+              }
+
+           });
+        });
+    </script>
+</head>
+<body>
+    <div>
+        <button id="addBtn">添加</button>
+    </div>
+    <div class="tabBox">
+        <table class="table" >
+            <thead>
+                <th>编号</th>
+                <th>名称</th>
+                <th>父级名称</th>
+                <th>url地址</th>
+                <th>操作</th>
+            </thead>
+            <tbody>
+                <tr th:each="menu:${allMenuList}">
+                    <td th:text="${menu.id}"></td>
+                    <td th:text="${menu.name}"></td>
+                    <th:block th:each="dad:${dadMenuList}">
+                        <td th:if="${menu.pid} eq ${dad.id}" th:text="${dad.name}"></td>
+                        <td th:unless="${menu.id} ne ${dad.id}" th:text="无"></td>
+                    </th:block>
+                    <td th:if="${menu.url.isEmpty()}" th:text="无"></td>
+                    <td th:unless="${menu.url.isEmpty()}" th:text="${menu.url}"></td>
+                    <td><button class="editBtn">编辑</button> | <button class="delBtn" th:attr="attribute=${menu.pid}">删除</button></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="addBox">
+        <table class="addTab">
+            <tr>
+                <td>名称</td>
+                <td><input type="text" id="name"></td>
+            </tr>
+            <tr>
+                <td>分类</td>
+                <td>
+                    <select name="" id="category">
+                        <option value="子级" selected="selected">子级</option>
+                        <option value="父级">父级</option>
+                    </select>
+                </td>
+            </tr>
+            <tr id="dadName">
+                <td>父级名称</td>
+                <td>
+                    <select name="" id="dadMenu">
+                        <th:block th:each="menu:${dadMenuList}">
+                            <option th:value="${menu.name}" th:text="${menu.name}"></option>
+                        </th:block>
+                    </select>
+                </td>
+            </tr>
+            <tr id="urlAddress">
+                <td>url地址</td>
+                <td><input type="text" id="url"></td>
+            </tr>
+        </table>
+        <button id="submitBtn">提交</button><button id="cancelBtn">取消</button>
+    </div>
+    <div class="editBox">
+        <table class="editTab">
+            <tr>
+                <td>名称</td>
+                <td><input type="text" id="editName"></td>
+            </tr>
+            <tr id="editDad">
+                <td>父级名称</td>
+                <td>
+                    <select name="" id="menuSel">
+                        <th:block th:each="menu:${dadMenuList}">
+                            <option th:value="${menu.name}" th:text="${menu.name}"></option>
+                        </th:block>
+                    </select>
+                </td>
+            </tr>
+            <tr id="editUrl">
+                <td>url地址 </td>
+                <td><input type="text" id="urlAddr"></td>
+            </tr>
+        </table>
+        <button id="confirmUpt">保存</button><button id="cancelUpt">取消</button>
+    </div>
+    <div class="delBox">
+        <p id="dadWaring">⚠警告您要删除的是父级目录，如确定删除将会同时删除子级目录请谨慎操作</p>
+        <p id="childWaring">您将删除子级目录</p>
+        <button id="confirmDel">确定</button><button id="cancelDel">取消</button>
+    </div>
+</body>
+</html>

@@ -6,6 +6,5 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 public interface HomeService {
-    List<Menu> getAllMenu();
-    List<Menu> getMenuByAdmin(HttpServletRequest request);
+
 }

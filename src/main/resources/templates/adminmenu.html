@@ -7,63 +7,53 @@
 		<link rel="stylesheet" href="/css/menu.css">
         <link rel="stylesheet" href="/css/style.css" />
 		<style>
-			*{margin: 0;padding: 0}
+			*{margin: 0px;padding: 0px}
 			html, body{height: 100%}
-            /*a{text-decoration: none}*/
-			.menu_list{float: left;width:15%;height:100%;
+			.menu{float: left;width:15%;height:100%;
 			}
-			#content{float: right;width:85%;height:100%;background-color: #ffffff
-			}
-            /*.menu_list{width:268px;margin:0 auto;}*/
-            .menu_head{height:47px;line-height:47px;padding-left:38px;font-size:14px;color: #000000;cursor:pointer;border:1px solid #e1e1e1;position:relative;margin:0px;font-weight:bold;background: #ffffff url(images/pro_left.png) center right no-repeat;}
-            .menu_list {background: #668FAF center right no-repeat;}
-            .current{background: #668FAF url(/img/pro_down.png) center right no-repeat;}
-            .menu_body{line-height:38px;border-left:1px solid #e1e1e1;backguound:#fff;border-right:1px solid #e1e1e1;}
-            .menu_body a{display:block;height:38px;line-height:38px;padding-left:38px;color: #6a6a6a;background:#fff;text-decoration:none;border-bottom:1px solid #e1e1e1;}
-            .menu_body a:hover{text-decoration:none;}
+			#content{float: right;width:85%;height:100%;background-color: #ffffff}
+            #content{
+                text-align: center;
+                background: url("/img/login-bg-autumn.jpg") no-repeat;
+                background-size:100% 100%;
+                background-attachment: fixed;
+            }
+            #welcomeWord{
+                font-size: 25px;
+                margin-top: 50px;
+                color: #f9e54f;
+            }
 		</style>
 
         <script src="/js/jquery-3.3.1.min.js"></script>
 		<script>
-			$(document).ready(function(){
-				// $('#content').load('./a.html');
-				var firstMenu=$("#content").attr("attribute");
-				$('#content').load("/adminview"+firstMenu);
-				$("a").bind("click",function () {
-					$("#content").load($(this).attr("attribute"));
-				})
-			});
-            $(document).ready(function(){
-                $(".menu_body").hide();
-                $("#firstpane h3.menu_head").click(function(){
-                    $(this).addClass("current").next("div.menu_body").slideToggle(300).siblings("div.menu_body").slideUp("slow");
-                    $(this).siblings().removeClass("current");
-                });
-
-                // $("#secondpane .menu_body:eq(0)").show();
-                // $("#secondpane h3.menu_head").mouseover(function(){
-                //     $(this).addClass("current").next("div.menu_body").slideDown(500).siblings("div.menu_body").slideUp("slow");
-                //     $(this).siblings().removeClass("current");
-                // });
-                // $(".menu_head").css("background","rgba(255,255,255,0)");
-                // $(".menu_body").css("background","rgba(255,255,255,0)");
-                // $(".menu_list").css("color","white");
+            $(function () {
+               $(".menu").load("/adminview/menu");
             });
+			function reloadcontent(htmlName){
+                $(".menu").load("/adminview/menu");
+                $("#content").load("/adminview/"+htmlName);
+            }
+            function opens(htmlName){
+                $(".menu a").each(function () {
+                    if($(this).attr("attribute")==htmlName){
+                        $(this).parent().prev().css("background","#6A75A2");
+                        $(this).parent().prev().next("div.menu_body").show("slow");
+                        $(this).css("background","#6A75A2");
+                    }
+                })
+            }
+            // function reloadmenu(){
+            //     alert($(".menu").find(".menu_list").find(".menu_body").find("h3").first().html());
+            //  }
 		</script>
 	</head>
 	<body>
-    <div id="firstpane" class="menu_list">
-        <th:block th:each="menu:${menuList}">
-            <h3 class="menu_head" th:if="${menu.level} eq 0" th:text="${menu.name}"></h3>
-            <div style="display:block" class="menu_body">
-                <th:block  th:each="childmenu:${menuList}">
-                    <a href="#" th:if="${childmenu.pid} eq ${menu.id}" th:text="${childmenu.name}"></a>
-                </th:block>
-            </div>
-        </th:block>
-    </div>
+        <div class="menu">
 
-    <div id="content">
+        </div>
+        <div id="content">
+            <p id="welcomeWord">欢迎来到白城师范学院新生报到管理系统</p>
 		</div>
 	</body>
 </html>

@@ -4,8 +4,26 @@
     <select id="selectMenuByAdmin" parameterType="org.yang.main.pojo.Admin" resultType="org.yang.main.pojo.Menu">
         select * from menu where id in(select menuid from role_menu where roleid in (select roleid from admin where id=#{id}))
     </select>
+    <select id="selectDadMenu" resultType="org.yang.main.pojo.Menu">
+        select * from menu where pid=0
+    </select>
+    <select id="selectIdByName" parameterType="String" resultType="String">
+        select id from menu where name=#{name}
+    </select>
     <select id="selectAllMenu" resultType="org.yang.main.pojo.Menu">
         select * from menu
     </select>
-
+    <!--keyProperty="id" useGeneratedKeys="true" id为要返回的自增id -->
+    <insert id="addMenu" parameterType="org.yang.main.pojo.Menu" keyProperty="id" useGeneratedKeys="true">
+        insert into menu values(default,#{name},#{pid},#{url})
+    </insert>
+    <delete id="delMenuById" parameterType="Integer">
+        delete from menu where id=#{id} or pid=#{id}
+    </delete>
+    <select id="selectMenuById" parameterType="Integer" resultType="org.yang.main.pojo.Menu">
+        select * from menu where id=#{id}
+    </select>
+    <update id="updateMenuById" parameterType="org.yang.main.pojo.Menu">
+        update menu set name=#{name},pid=#{pid},url=#{url} where id=#{id}
+    </update>
 </mapper>

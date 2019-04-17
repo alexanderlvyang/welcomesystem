@@ -9,7 +9,6 @@ public class Menu {
 
     private String url;
 
-    private int level;
 
     public Integer getId() {
         return id;
@@ -43,13 +42,6 @@ public class Menu {
         this.url = url == null ? null : url.trim();
     }
 
-    public int getLevel() {
-        return level;
-    }
-
-    public void setLevel(int level) {
-        this.level = level;
-    }
 
     @Override
     public String toString() {
@@ -58,7 +50,6 @@ public class Menu {
                 ", name='" + name + '\'' +
                 ", pid=" + pid +
                 ", url='" + url + '\'' +
-                ", level=" + level +
                 '}';
     }
 }

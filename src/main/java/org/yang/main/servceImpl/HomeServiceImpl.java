@@ -11,18 +11,5 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 @Service
 public class HomeServiceImpl implements HomeService {
-    @Resource
-    private MenuMapper menuMapper;
-
-    @Override
-    public List<Menu> getAllMenu() {
-        return menuMapper.selectAllMenu();
-    }
-
-    @Override
-    public List<Menu> getMenuByAdmin(HttpServletRequest request) {
-        Admin loginAdmin = (Admin)request.getSession().getAttribute("admin");
-        return menuMapper.selectMenuByAdmin(loginAdmin);
-    }
 
 }
